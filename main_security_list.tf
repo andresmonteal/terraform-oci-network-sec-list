@@ -16,6 +16,10 @@ locals {
     egress_rules   = []
   }
   sec_list_keys = keys(var.security_lists)
+  default_freeform_tags = {
+    terraformed = "Please do not edit manually"
+    module      = "module:oracle-terraform-oci-network-sec-list"
+  }
 }
 
 # resource definitions
@@ -25,7 +29,7 @@ resource "oci_core_security_list" "this" {
   vcn_id         = var.vcn_id
   display_name   = local.sec_list_keys[count.index] != null ? local.sec_list_keys[count.index] : "${local.default_security_list_opt.display_name}-${count.index}"
   defined_tags   = var.security_lists[local.sec_list_keys[count.index]].defined_tags != null ? var.security_lists[local.sec_list_keys[count.index]].defined_tags : var.default_defined_tags
-  freeform_tags  = var.security_lists[local.sec_list_keys[count.index]].freeform_tags != null ? var.security_lists[local.sec_list_keys[count.index]].freeform_tags : var.default_freeform_tags
+  freeform_tags  = merge(var.security_lists[local.sec_list_keys[count.index]].freeform_tags, local.default_freeform_tags, var.default_freeform_tags)
 
   #  egress, proto: TCP  - no src port, no dst port
   dynamic "egress_security_rules" {
