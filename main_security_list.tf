@@ -18,7 +18,7 @@ locals {
   sec_list_keys = keys(var.security_lists)
   default_freeform_tags = {
     terraformed = "Please do not edit manually"
-    module      = "module:oracle-terraform-oci-network-sec-list"
+    module      = "oracle-terraform-oci-network-sec-list"
   }
 }
 
