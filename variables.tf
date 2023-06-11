@@ -30,6 +30,12 @@ variable "vcn_name" {
   default     = null
 }
 
+variable "sn_name" {
+  type        = string
+  description = "The subnet name where the default Security List(s) should be created."
+  default     = ""
+}
+
 variable "security_lists" {
   type = map(object({
     compartment_id = string,
