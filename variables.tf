@@ -1,27 +1,33 @@
 # Copyright (c) 2020 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
+variable "tenancy_ocid" {
+  description = "(Required) (Updatable) The OCID of the root compartment."
+  type        = string
+  default     = null
+}
 
-variable "default_compartment_id" {
+variable "compartment_id" {
   type        = string
   description = "The default compartment OCID to use for resources (unless otherwise specified)."
+  default     = null
+}
+variable "compartment" {
+  description = "compartment name where to create all resources"
+  type        = string
+  default     = null
 }
 
 variable "vcn_id" {
   type        = string
   description = "The VCN ID where the Security List(s) should be created."
+  default     = null
 }
 
-variable "default_defined_tags" {
-  type        = map(string)
-  description = "The different defined tags that are applied to each object by default."
-  default     = {}
-}
-
-variable "default_freeform_tags" {
-  type        = map(string)
-  description = "The different freeform tags that are applied to each object by default."
-  default     = {}
+variable "vcn_name" {
+  type        = string
+  description = "The VCN name where the Security List(s) should be created."
+  default     = null
 }
 
 variable "security_lists" {

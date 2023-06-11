@@ -1,10 +1,11 @@
-module "oci_security_policies" {
-  source = "git::ssh://devops.scmservice.us-ashburn-1.oci.oraclecloud.com/namespaces/id9de6bj2yv6/projects/claro-devops/repositories/terraform-oci-network-sec-list?ref=v0.2.3"
+// Copyright (c) 2018, 2021, Oracle and/or its affiliates.
 
-  for_each = var.security_lists
+module "security_lists" {
+  source = "../../"
 
-  default_compartment_id = data.oci_identity_compartments.network_cmp[each.key].compartments[0].id
-  vcn_id                 = data.oci_core_vcns.vcns[each.key].virtual_networks[0].id
+  tenancy_ocid = var.tenancy_ocid
+  compartment  = var.compartment
+  vcn_name     = var.vcn_name
 
-  security_lists = each.value["security_list"]
+  security_lists = var.security_lists
 }

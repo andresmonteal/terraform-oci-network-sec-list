@@ -1,43 +1,18 @@
-/* terraform {
-  required_version = "~> 1.1.4"
-  required_providers {
-    oci = {
-      source  = "hashicorp/oci"
-      version = "4.17"
-    }
-  }
-} */ # Copyright (c) 2020 Oracle and/or its affiliates.
+# Copyright (c) 2020 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
-
-
-
 
 ######################
 # Network Security Group(s) - NSGs
 ######################
-# default values
-locals {
-  default_nsgs_opt = {
-    display_name   = "unnamed"
-    compartment_id = null
-    ingress_rules  = []
-    egress_rules   = []
-  }
-  nsgs_keys        = keys(var.nsgs)
-  local_nsg_ids    = { for i in oci_core_network_security_group.this : i.display_name => i.id }
-  remote_nsg_ids   = { for i in data.oci_core_network_security_groups.this.network_security_groups : i.display_name => i.id }
-  nsg_ids          = merge(local.remote_nsg_ids, local.local_nsg_ids)
-  nsg_ids_reversed = { for k, v in local.nsg_ids : v => k }
-}
 
 # resource definitions
 resource "oci_core_network_security_group" "this" {
   count          = length(local.nsgs_keys)
-  compartment_id = var.nsgs[local.nsgs_keys[count.index]].compartment_id != null ? var.nsgs[local.nsgs_keys[count.index]].compartment_id : var.default_compartment_id
-  vcn_id         = var.vcn_id
+  compartment_id = local.compartment_id
+  vcn_id         = local.vcn_id
   display_name   = local.nsgs_keys[count.index] != null ? local.nsgs_keys[count.index] : "${local.default_nsgs_opt.display_name}-${count.index}"
-  defined_tags   = var.nsgs[local.nsgs_keys[count.index]].defined_tags != null ? var.nsgs[local.nsgs_keys[count.index]].defined_tags : var.default_defined_tags
-  freeform_tags  = var.nsgs[local.nsgs_keys[count.index]].freeform_tags != null ? var.nsgs[local.nsgs_keys[count.index]].freeform_tags : var.default_freeform_tags
+  defined_tags   = try(var.nsgs[local.nsgs_keys[count.index]].defined_tags, {})
+  freeform_tags  = merge(var.nsgs[local.nsgs_keys[count.index]].freeform_tags, local.default_freeform_tags)
 }
 
 ######################
