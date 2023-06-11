@@ -1,7 +1,7 @@
 # default values
 locals {
   #general defaults
-  compartment_id = try(data.oci_identity_compartments.compartment.compartments[0].id, var.compartment_id)
+  compartment_id = try(data.oci_identity_compartments.compartment[0].compartments[0].id, var.compartment_id)
   vcn_id         = try(data.oci_core_vcns.vcns.virtual_networks[0].id, var.vcn_id)
   default_freeform_tags = {
     terraformed = "Please do not edit manually"

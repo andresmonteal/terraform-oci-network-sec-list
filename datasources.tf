@@ -2,6 +2,7 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 data "oci_identity_compartments" "compartment" {
+  count = var.tenancy_ocid == null ? 0 : 1
   #Required
   compartment_id            = var.tenancy_ocid
   access_level              = "ANY"
