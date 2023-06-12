@@ -30,12 +30,6 @@ variable "vcn_name" {
   default     = null
 }
 
-variable "sn_name" {
-  type        = string
-  description = "The subnet name where the default Security List(s) should be created."
-  default     = ""
-}
-
 variable "default_security_list_name" {
   type        = string
   description = "The default security list name."
