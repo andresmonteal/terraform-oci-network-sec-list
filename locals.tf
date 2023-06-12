@@ -10,7 +10,7 @@ locals {
 
   #security list defaults  
   default_security_list_opt = {
-    display_name = "sl-default-${var.sn_name}"
+    display_name = "${var.default_security_list_name}"
     egress_rules = [
       {
         stateless       = false

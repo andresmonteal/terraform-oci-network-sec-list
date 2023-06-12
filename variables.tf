@@ -36,6 +36,12 @@ variable "sn_name" {
   default     = ""
 }
 
+variable "default_security_list_name" {
+  type        = string
+  description = "The default security list name."
+  default     = "sl-default"
+}
+
 variable "security_lists" {
   type = map(object({
     compartment_id = string,
