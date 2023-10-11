@@ -21,7 +21,7 @@ data "oci_identity_compartments" "compartment" {
 }
 
 data "oci_core_vcns" "vcns" {
-  count = var.tenancy_ocid == null ? 0 : 1
+  count = var.vcn_id == null ? 1 : 0
 
   compartment_id = local.compartment_id
   display_name   = var.vcn_name
