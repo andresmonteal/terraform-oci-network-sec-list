@@ -27,7 +27,9 @@ output "id" {
   }
 }
 
-
+output "ids" {
+  value = oci_core_security_list.this[*].id
+}
 
 output "nsgs" {
   description = "The Network Security Group(s) (NSGs) created/managed."
